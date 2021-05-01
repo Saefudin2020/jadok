@@ -45,7 +45,7 @@
 </template>
 <script>
 
-    import HomePage from './home'
+    import DashboardPasien from './../pasien/home'
     // A stub for a service that authenticates users.
     const userService = {
         register(user) {
@@ -91,7 +91,7 @@
                 userService
                     .login(this.user)
                     .then(() => {
-                        this.$navigateTo(HomePage);
+                        this.$navigateTo(DashboardPasien);
                     })
                     .catch(() => {
                         this.alert(
