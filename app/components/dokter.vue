@@ -5,7 +5,7 @@
                 @tap=$navigateBack />
         </ActionBar>
         <StackLayout class="p-20">
-            <Image src="~/images/doctor-list.jpg" width="100" height="100" stretch="none" />
+            <Image src="~/image/doctor-list.jpg" width="100" height="100" stretch="none" />
             <Label :text="dokter.name" class="h2 text-center" />
             <Label :text="dokter.praktek" />
             <Label :text="dokter.maks" />
