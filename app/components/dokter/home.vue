@@ -15,15 +15,15 @@
             </StackLayout>
             <StackLayout>
               <Button
-                text="Daftar Konsultasi"
+                text="Daftar Data Pasien"
                 padding="10"
                 backgroundColor="lightgray"
-                @tap="$navigateTo(konsultasi)"
+                @tap="$navigateTo(daftarpasien)"
               />
               <Button
-                text="Rekam Medis"
+                text="Rekam Medis Pasien"
                 padding="10"
-                @tap="$navigateTo(histori)"
+                @tap="$navigateTo(rekampasien)"
               />
               <Button
                 text="Pengaturan"
@@ -64,16 +64,16 @@
 import Vue from "nativescript-vue";
 import RadSideDrawer from "nativescript-ui-sidedrawer/vue";
 Vue.use(RadSideDrawer);
-import konsultasi from "./konsultasi";
-import histori from "./histori";
+import daftarpasien from "./daftarpasien";
+import rekampasien from "./rekampasien";
 import pengaturan from "./pengaturan";
 
 export default {
   data() {
     return {
       msg: "Hello World",
-      konsultasi: konsultasi,
-      histori: histori,
+      daftarpasien: daftarpasien,
+      rekampasien: rekampasien,
       pengaturan: pengaturan,
     };
   },
