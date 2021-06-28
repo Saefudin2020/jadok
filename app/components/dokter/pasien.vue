@@ -1,12 +1,11 @@
 <template>
-  <page>
+  <Page>
     <ActionBar :title="pasien.name">
       <NavigationButton
         android.systemIcon="ic_menu_back"
         @tap="$navigateBack"
       />
     </ActionBar>
-    <FLexboxLayout flexDirection="row">
       <StackLayout class="p-20">
         <Image
           src="~/images/doctor-list.jpg"
@@ -15,31 +14,34 @@
           stretch="none"
         />
         <Label :text="pasien.name" class="h2 text-center" />
-        <Label :text="pasien.umur" />
-        <Label :text="pasien.kategori" />
-        <ListView for="(riwayat,index) in pasien.riwayat">
-          <v-template>
-            <Span :text="riwayat.keluhan" />
-            <Span :text="riwayat.gejala" />
-          </v-template>
-        </ListView>
+        <Label textWrap="true">
+          <FormattedString class="text-center">
+            <Span text="Umur : "/>
+            <Span :text="pasien.umur" />
+          </FormattedString>
+        </Label>
+        <Label textWrap="true">
+          <FormattedString class="text-center">
+            <Span text="Kategori : "/>
+            <Span :text="pasien.kategori" />
+          </FormattedString>
+        </Label>
+       
+          <Label text="Keluhan Pasien " />
+          <TextField v-model="textFieldValue" hint="Enter text..." />
 
-        <Label text="Keluhan Pasien " />
-        <TextField v-model="textFieldValue" hint="Enter text..." />
+          <Label text="Gejala Pasien " />
+          <TextField v-model="textFieldValue" hint="Enter text..." />
 
-        <Label text="Gejala Pasien " />
-        <TextField v-model="textFieldValue" hint="Enter text..." />
+          <Label text="Obat yang dianjurkan " />
+          <TextField v-model="textFieldValue" hint="Enter text..." />
 
-        <Label text="Obat yang dianjurkan " />
-        <TextField v-model="textFieldValue" hint="Enter text..." />
-
-        <Label text="Keterangan " />
-        <TextField v-model="textFieldValue" hint="Enter text..." />
+          <Label text="Keterangan " />
+          <TextField v-model="textFieldValue" hint="Enter text..." />
 
         <Button text="Rekam Data Pasien" @tap="onButtonTap" />
       </StackLayout>
-    </FLexboxLayout>
-  </page>
+  </Page>
 </template>
 
 <script>

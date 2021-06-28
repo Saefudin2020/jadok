@@ -19,9 +19,30 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
     export default {
         data() {
-            return {};
+            return {
+                history : [{
+                    checkup_date : "",
+                    issue : "",
+                    symptomps : "",
+                    medicine : "",
+                    results : ""
+                }]
+            };
+        },
+        async created(){
+            const userId = this.$store.state.userLoggedIn.id
+            await this.getHistoryMedicalByUser(userId)
+            await this.$store.state.history
+
+            console.log("STORE", this.$store.state)
+        },
+        methods : {
+            ...mapActions({
+                getHistoryMedicalByUser : "getHistoryMedicalByUser"
+            })
         }
     };
 </script>

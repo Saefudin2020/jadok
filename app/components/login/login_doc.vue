@@ -71,26 +71,19 @@
   </Page>
 </template>
 <script>
+import { mapActions } from "vuex";
 import DashboardDokter from "./../dokter/home";
 // A stub for a service that authenticates users.
-const userService = {
-  register(user) {
-    return Promise.resolve(user);
+const dokterService = {
+  register(dokter) {
+    return Promise.resolve(dokter);
   },
-  login(user) {
-    return Promise.resolve(user);
+  login(dokter) {
+    return Promise.resolve(dokter);
   },
   resetPassword(email) {
     return Promise.resolve(email);
   },
-};
-// A stub for the main page of your app. In a real app you’d put this page in its own .vue file.
-const HomePage = {
-  template: `
-	<Page>
-        <Label class="m-20" textWrap="true" text="You have successfully authenticated. This is where you build your core application functionality."></Label>
-	</Page>
-	`,
 };
 export default {
   data() {
@@ -119,8 +112,7 @@ export default {
       }
     },
     login() {
-      userService
-        .login(this.user)
+      this.loginStore(this.user)
         .then(() => {
           this.$navigateTo(DashboardDokter);
         })
@@ -133,7 +125,7 @@ export default {
         this.alert("Your passwords do not match.");
         return;
       }
-      userService
+      dokterService
         .register(this.user)
         .then(() => {
           this.alert("Your account was successfully created.");
@@ -184,6 +176,9 @@ export default {
         message: message,
       });
     },
+    ...mapActions({
+      loginStore: "loginDokter",
+    }),
   },
 };
 </script>

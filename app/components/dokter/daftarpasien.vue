@@ -40,12 +40,7 @@ export default {
           name: "Andi Riswandi",
           umur: "40 Tahun",
           kategori: "Urgent",
-          riwayat: [
-            {
-              keluhan: "Batuk sudah 4 minggu",
-              gejala: "belum pernah periksa dokter",
-            },
-          ],
+
         },
 
         {
@@ -53,12 +48,7 @@ export default {
           name: "Elsa Alrsha",
           umur: "45 Tahun",
           kategori: "Urgent",
-          riwayat: [
-            {
-              keluhan: "batuk berdarah",
-              gejala: "pernah terkena flex paru-paru",
-            },
-          ],
+
         },
 
         {
@@ -66,12 +56,6 @@ export default {
           name: "Casya rahasya",
           umur: "38 Tahun",
           kategori: "Urgent",
-          riwayat: [
-            {
-              keluhan: "Batuk Berlendir",
-              gejala: "punya penyakit paru-paru basah",
-            },
-          ],
         },
       ],
       home: home,

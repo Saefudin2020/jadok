@@ -1,104 +1,113 @@
 import Vue from 'nativescript-vue'
 import Vuex from 'vuex'
-import {settings} from '../const'
-import {DummyDokter, DummyPasien} from './dummy'
-import getCollections from './firestore'
+import { settings } from '../const'
+import repository from './repository'
+import inmem from './inmem/inmem'
+import firestore from './firestore/firestore'
 
 Vue.use(Vuex)
-
-const PasienService = {
-    async init(){
-        if(!settings.mock){
-            return await getCollections("users")
-        }
-        return Promise.resolve(DummyPasien.pasien)
-    },
-    // login(pasien){
-        
-    // },
-    // register(user){}
-}
-
-const DokterService = {
-    async init(){
-        if(!settings.mock){
-            return await getCollections("doctors")
-        }
-        return Promise.resolve(DummyDokter.dokter)
-    }
-}
+const DoctorService = repository.DoctorService({ doctorRepository: firestore.DoctorServiceInFS() })
+const PasienService = repository.PasienService({ pasienRepository: firestore.PasienServiceInFS() })
+const HistoryService = repository.HistoryService({ historyRepository: firestore.HistoryServiceInFS() })
 
 export default new Vuex.Store({
-    state : {
-        isLoggedIn : false,
-        isLoaded : false, 
-        userLoggedIn : {},
-        dokter : [{
-            id : "",
-            email : "",
-            password : ""
+    state: {
+        isLoggedIn: false,
+        isLoaded: false,
+        userLoggedIn: {},
+        doctorLoggedIn: {},
+        dokter: [{
+            id: "",
+            email: "",
+            password: ""
         }],
-        pasien : [{
-            id : "",
-            email : "",
-            password : ""
+        pasien: [{
+            id: "",
+            email: "",
+            password: ""
+        }],
+        history: [{
+
         }],
     },
-    mutations : {
-        savePasien(state, payload){
+    mutations: {
+        savePasien(state, payload) {
             state.pasien = payload
         },
-        saveDokter(state, payload){
+        saveDokter(state, payload) {
             state.dokter = payload
         },
-        saveUserLoggedIn(state, payload){
+        saveUserLoggedIn(state, payload) {
             state.userLoggedIn = payload
-            
         },
-        setIsLoaded(state, bool){
+        saveDoctorLoggedIn(state, payload) {
+            state.doctorLoggedIn = payload
+        },
+        setIsLoaded(state, bool) {
             state.isLoaded = bool
         },
-        setIsLoggedIn(state, bool){
+        setIsLoggedIn(state, bool) {
             state.isLoggedIn = bool
         },
-        resetAuth(state){
+        resetAuth(state) {
             state.isLoggedIn = false
             state.userLoggedIn = {}
+        },
+        saveHistoryUser(state, payload) {
+            state.history = payload
         }
     },
-    actions : {
+    actions: {
         // Buat dapetin data pasien 
-        async init({commit}){
-            PasienService.init().then((data)=>{
+        async init({ commit }) {
+            PasienService.getAll().then((data) => {
                 commit('savePasien', data)
             })
-            
-            DokterService.init().then((data)=>{
+
+            DokterService.init().then((data) => {
                 commit("saveDokter", data)
                 commit('setIsLoaded', true)
             })
         },
-        async checkAuth({commit, state}, payload){
-            state.pasien.forEach((n)=>{
-                if(n.email === payload.email && n.password === payload.password){
-                    commit("saveUserLoggedIn", n)
-                    commit("setIsLoggedIn", true)
-                }
-            })
+        // Buat login Pasien
+        async loginPasien({ commit }, payload) {
+            // Reset Auth
+            await commit("resetAuth")
+            const data = await PasienService.login(payload.email, payload.password)
+            if (Object.keys(data).length < 1) {
+                return Promise.reject("Login failed")
+            }
+            commit("setIsLoggedIn", true)
+            commit("saveUserLoggedIn", data)
+            return Promise.resolve(data)
         },
-        // Buat login
-        async loginPasien({commit, dispatch, state}, payload){
-           await commit("resetAuth")
-           await dispatch("checkAuth", payload)
-           if(state.isLoggedIn){
-               console.log(state)
-                return Promise.resolve(payload)
-           }  else{
-               console.log(state)
-            return Promise.reject("Login failed")
-           }
+        async loginDokter({ commit }, paylad) {
+            await commit("resetAuth")
+            const data = await DoctorService.login(paylad.email, paylad.password)
+            if (Object.keys(data).length < 1) {
+                return Promise.reject("Login failed")
+            }
+            commit("setIsLoggedIn", true)
+            commit("saveDoctorLoggedIn", data)
+            return Promise.resolve(data)
         },
-        async loginDokter({commit}){
+
+        // Used by doctor when logged in 
+        async getDataPasienByCategory({ commit, state }, category) {
+
+        },
+
+        async getQueueOfDoctor({ commit, state }, doctorID) {
+
+        },
+
+        async getHistoryMedicalByUser({ commit, state }, userID) {
+            try {
+                const data = await HistoryService.getHistoryByUserID(userID)
+                commit("saveHistoryUser", data)
+            } catch (err) {
+                console.log(err)
+            }
 
         }
     },

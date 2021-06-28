@@ -34,8 +34,8 @@ export default {
         {
           id: 1,
           name: "Dr. Alexander Cahya",
-          praktek: "Senin dan Kamis, Pukul 09.00 - 12.00",
-          maks: "Maksimal Pasien per hari : 3 Pasien",
+          description: "Senin dan Kamis, Pukul 09.00 - 12.00",
+          max_patient: 3,
           pasien: [
             {
               name: "Pasien 1",
@@ -47,8 +47,8 @@ export default {
         {
           id: 2,
           name: "Dr. Patrick Zorra",
-          praktek: "Senin dan Kamis, Pukul 09.00 - 12.00",
-          maks: "Maksimal Pasien per hari : 3 Pasien",
+          description: "Senin dan Kamis, Pukul 09.00 - 12.00",
+          max_patient: 3,
           pasien: [
             {
               name: "Pasien 1",
@@ -60,8 +60,8 @@ export default {
         {
           id: 3,
           name: "Dr. Vincent Erlangga",
-          praktek: "Senin dan Kamis, Pukul 09.00 - 12.00",
-          maks: "Maksimal Pasien per hari : 3 Pasien",
+          description : "Senin dan Kamis, Pukul 09.00 - 12.00",
+          max_patient: 3,
           pasien: [
             {
               name: "Pasien 1",
