@@ -5,6 +5,7 @@ firebase.init()
 const doctorCollections = "doctors"
 const pasienCollections = "users"
 const historyCollections = "history"
+const registeredCollections = "registered"
 
 const getCollections = async (collectionName) => {
     return firestore.collection(collectionName).get().then((querySnapshot) => {
@@ -48,6 +49,26 @@ const getCollectionsByUserID = async (collections, user_id) => {
 
 }
 
+const getCollectionsByCategory = async (collections, category) => {
+    return firestore.collection(collections)
+        .where("with_category_user", "==", category).get().then((querySnapshot) => {
+            let arr = []
+            querySnapshot.forEach((doc) => {
+                const data = doc.data()
+                arr.push(data)
+            })
+            console.log("CATEGORY : ", category)
+            return Promise.resolve(arr)
+        }).catch((err) => {
+            console.log(err)
+            return Promise.reject(err)
+        })
+}
+
+const addCollections = async (collections, object) => {
+    return firestore.collection(collections).add(object)
+}
+
 
 class DoctorServiceInFS {
     async getAll() {
@@ -61,7 +82,9 @@ class DoctorServiceInFS {
             Promise.reject(err)
         }
         return result
-
+    }
+    async getDoctorsByCategory(category) {
+        return await getCollectionsByCategory(doctorCollections, category)
     }
 }
 
@@ -84,10 +107,19 @@ class PasienServiceInFS {
 
 class HistoryServiceInFS {
     async getAll() {
-        return getCollections(historyCollections)
+        return await getCollections(historyCollections)
     }
     async getHistoryByUserID(user_id) {
-        return getCollectionsByUserID(historyCollections, user_id)
+        return await getCollectionsByUserID(historyCollections, user_id)
+    }
+}
+
+class RegisteredServiceInFS {
+    async addUserRegisteredIntoDoctor(doctor_id, user_id) {
+        return addCollections(registeredCollections, {
+            doctor_id,
+            user_id
+        })
     }
 }
 
@@ -95,4 +127,5 @@ export default {
     DoctorServiceInFS: () => new DoctorServiceInFS(),
     PasienServiceInFS: () => new PasienServiceInFS(),
     HistoryServiceInFS: () => new HistoryServiceInFS(),
+    RegisteredServiceInFS: () => new RegisteredServiceInFS(),
 }

@@ -9,6 +9,7 @@ Vue.use(Vuex)
 const DoctorService = repository.DoctorService({ doctorRepository: firestore.DoctorServiceInFS() })
 const PasienService = repository.PasienService({ pasienRepository: firestore.PasienServiceInFS() })
 const HistoryService = repository.HistoryService({ historyRepository: firestore.HistoryServiceInFS() })
+const RegisteredService = repository.RegisteredService({ registeredRepository: firestore.RegisteredServiceInFS() })
 
 export default new Vuex.Store({
     state: {
@@ -16,19 +17,20 @@ export default new Vuex.Store({
         isLoaded: false,
         userLoggedIn: {},
         doctorLoggedIn: {},
-        dokter: [{
-            id: "",
-            email: "",
-            password: ""
-        }],
-        pasien: [{
-            id: "",
-            email: "",
-            password: ""
-        }],
-        history: [{
+        user: {}
+        // dokter: [{
+        //     id: "",
+        //     email: "",
+        //     password: ""
+        // }],
+        // pasien: [{
+        //     id: "",
+        //     email: "",
+        //     password: ""
+        // }],
+        // history: [{
 
-        }],
+        // }],
     },
     mutations: {
         savePasien(state, payload) {
@@ -97,18 +99,33 @@ export default new Vuex.Store({
 
         },
 
+        async getDataDoctorsByCategory({ }, category) {
+            try {
+                return await DoctorService.getDoctorsByCategory(category)
+            }
+            catch (err) {
+                throw err
+            }
+        },
         async getQueueOfDoctor({ commit, state }, doctorID) {
 
         },
 
-        async getHistoryMedicalByUser({ commit, state }, userID) {
+        async getHistoryMedicalByUser({ }, userID) {
             try {
-                const data = await HistoryService.getHistoryByUserID(userID)
-                commit("saveHistoryUser", data)
+                return await HistoryService.getHistoryByUserID(userID)
             } catch (err) {
-                console.log(err)
+                throw err
             }
-
+        },
+        async registerPatientIntoDoctor({ }, data) {
+            const { doctor_id, user_id } = data
+            try {
+                return await RegisteredService.addUserRegisteredIntoDoctor(doctor_id, user_id)
+            }
+            catch (err) {
+                throw err
+            }
         }
     },
 })

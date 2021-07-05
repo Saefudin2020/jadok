@@ -8,6 +8,9 @@ class DoctorService {
     async login(username, password) {
         return this.doctorRepository.login(username, password)
     }
+    async getDoctorsByCategory(category) {
+        return this.doctorRepository.getDoctorsByCategory(category)
+    }
 }
 
 class PasienService {
@@ -34,8 +37,18 @@ class HistoryService {
     }
 }
 
+class RegisteredService {
+    constructor({ registeredRepository }) {
+        this.registeredRepository = registeredRepository
+    }
+    async addUserRegisteredIntoDoctor(doctor_id, user_id) {
+        return this.registeredRepository.addUserRegisteredIntoDoctor(doctor_id, user_id)
+    }
+}
+
 export default {
     DoctorService: (repository) => new DoctorService(repository),
     PasienService: (repository) => new PasienService(repository),
-    HistoryService: (repository) => new HistoryService(repository)
+    HistoryService: (repository) => new HistoryService(repository),
+    RegisteredService: (repository) => new RegisteredService(repository)
 }

@@ -11,7 +11,7 @@
         <Label text="Daftar Dokter Spesialist" class="h2 text-center" />
         <ListView for="(dokter, index) in dokters">
           <v-template>
-            <Label :text="dokter.name" class="dokter" @tap="onItemTap(index)" />
+            <Label :text="dokter.fullname" class="dokter" @tap="onItemTap(index)" />
           </v-template>
         </ListView>
       </ScrollView>
@@ -20,6 +20,7 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
 import Dokter from "./list_dokter";
 
 import Vue from "nativescript-vue";
@@ -30,49 +31,14 @@ import home from "./home";
 export default {
   data() {
     return {
-      dokters: [
-        {
-          id: 1,
-          name: "Dr. Alexander Cahya",
-          description: "Senin dan Kamis, Pukul 09.00 - 12.00",
-          max_patient: 3,
-          pasien: [
-            {
-              name: "Pasien 1",
-              umur: "40 Tahun",
-              kategori: "urgent",
-            },
-          ],
-        },
-        {
-          id: 2,
-          name: "Dr. Patrick Zorra",
-          description: "Senin dan Kamis, Pukul 09.00 - 12.00",
-          max_patient: 3,
-          pasien: [
-            {
-              name: "Pasien 1",
-              umur: "40 Tahun",
-              kategori: "urgent",
-            },
-          ],
-        },
-        {
-          id: 3,
-          name: "Dr. Vincent Erlangga",
-          description : "Senin dan Kamis, Pukul 09.00 - 12.00",
-          max_patient: 3,
-          pasien: [
-            {
-              name: "Pasien 1",
-              umur: "40 Tahun",
-              kategori: "urgent",
-            },
-          ],
-        },
-      ],
+      dokters: [],
       home: home,
     };
+  },
+  async created(){
+    const {with_category_user} = this.$store.state.userLoggedIn
+    this.dokters = await this.getDataDoctorsByCategory(with_category_user) 
+    console.log(this.dokters)
   },
   methods: {
     onItemTap: function (index) {
@@ -82,6 +48,9 @@ export default {
         },
       });
     },
+    ...mapActions({
+        getDataDoctorsByCategory : "getDataDoctorsByCategory"
+    })
   },
 };
 </script>
