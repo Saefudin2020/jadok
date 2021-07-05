@@ -20,6 +20,9 @@ class PasienService {
     async getAll() {
         return this.pasienRepository.getAll()
     }
+    async getUser(user_id) {
+        return this.pasienRepository.getUser(user_id)
+    }
     async login(username, password) {
         return this.pasienRepository.login(username, password)
     }
@@ -40,6 +43,10 @@ class HistoryService {
 class RegisteredService {
     constructor({ registeredRepository }) {
         this.registeredRepository = registeredRepository
+    }
+    async getUserRegistered(doctor_id, user_id) {
+        return this.registeredRepository.getUserRegistered(doctor_id, user_id)
+
     }
     async addUserRegisteredIntoDoctor(doctor_id, user_id) {
         return this.registeredRepository.addUserRegisteredIntoDoctor(doctor_id, user_id)

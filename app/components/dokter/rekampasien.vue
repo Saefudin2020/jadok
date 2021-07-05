@@ -39,6 +39,7 @@ import home from "./home";
 export default {
   data() {
     return {
+      textFieldValue: "",
       home: home,
     };
   },

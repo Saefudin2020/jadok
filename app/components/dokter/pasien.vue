@@ -17,13 +17,13 @@
         <Label textWrap="true">
           <FormattedString class="text-center">
             <Span text="Umur : "/>
-            <Span :text="pasien.umur" />
+            <Span :text="pasien.age" />
           </FormattedString>
         </Label>
         <Label textWrap="true">
           <FormattedString class="text-center">
             <Span text="Kategori : "/>
-            <Span :text="pasien.kategori" />
+            <Span :text="pasien.with_category_user" />
           </FormattedString>
         </Label>
        

@@ -19,6 +19,7 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
 import Pasien from "./pasien";
 
 import RadDataForm from "nativescript-ui-dataform/vue";
@@ -27,39 +28,48 @@ Vue.use(RadDataForm);
 import Vue from "nativescript-vue";
 import RadSideDrawer from "nativescript-ui-sidedrawer/vue";
 Vue.use(RadSideDrawer);
+
 import home from "./home";
 
 export default {
   data() {
     return {
-      textFieldValue: "",
+
 
       pasiens: [
         {
           id: 1,
           name: "Andi Riswandi",
-          umur: "40 Tahun",
-          kategori: "Urgent",
-
+          age: "40 Tahun",
+          with_category_user: "Urgent",
         },
 
         {
           id: 2,
           name: "Elsa Alrsha",
-          umur: "45 Tahun",
-          kategori: "Urgent",
+          age: "45 Tahun",
+          with_category_user: "Urgent",
 
         },
 
         {
           id: 3,
           name: "Casya rahasya",
-          umur: "38 Tahun",
-          kategori: "Urgent",
+          age: "38 Tahun",
+          with_category_user: "Urgent",
         },
       ],
       home: home,
     };
+  },
+  async created(){
+    try{
+      const data = await this.getDataPasienRegisteredByDoctorID()
+      this.pasiens = data
+    }catch(err){
+      console.log(err)
+    }
+    
   },
   methods: {
     onItemTap: function (index) {
@@ -69,6 +79,9 @@ export default {
         },
       });
     },
+    ...mapActions({
+      getDataPasienRegisteredByDoctorID : "getDataPasienRegisteredByDoctorID",
+    })
   },
 };
 </script>

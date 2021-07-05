@@ -94,9 +94,25 @@ export default new Vuex.Store({
             return Promise.resolve(data)
         },
 
-        // Used by doctor when logged in 
-        async getDataPasienByCategory({ commit, state }, category) {
+        async getDataPasienByUserId({ }, user_id) {
+            try {
 
+            } catch (err) { }
+        },
+        // Used by doctor when logged in 
+        async getDataPasienRegisteredByDoctorID({ state }, doctor_id) {
+            try {
+                let results = await RegisteredService.getUserRegistered(state.doctorLoggedIn.id)
+                return await Promise.all(
+                    results.map(async (n) => {
+                        const user = await PasienService.getUser(n.user_id)
+                        return user[0]
+                    })).then((res) => {
+                        return Promise.resolve(res)
+                    })
+            } catch (err) {
+                throw err
+            }
         },
 
         async getDataDoctorsByCategory({ }, category) {
@@ -108,7 +124,6 @@ export default new Vuex.Store({
             }
         },
         async getQueueOfDoctor({ commit, state }, doctorID) {
-
         },
 
         async getHistoryMedicalByUser({ }, userID) {

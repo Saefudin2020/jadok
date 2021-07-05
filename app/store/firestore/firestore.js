@@ -48,6 +48,21 @@ const getCollectionsByUserID = async (collections, user_id) => {
         })
 
 }
+const getCollectionsByDoctorID = async (collections, doctor_id) => {
+    return firestore.collection(collections)
+        .where("doctor_id", "==", doctor_id)
+        .get().then((querySnapshot) => {
+            let arr = []
+            querySnapshot.forEach((doc) => {
+                const data = doc.data()
+                arr.push(data)
+            })
+            return Promise.resolve(arr)
+        }).catch((err) => {
+            return Promise.reject(err)
+        })
+
+}
 
 const getCollectionsByCategory = async (collections, category) => {
     return firestore.collection(collections)
@@ -92,7 +107,9 @@ class PasienServiceInFS {
     async getAll() {
         return getCollections(pasienCollections)
     }
-
+    async getUser(user_id) {
+        return getCollectionsByUserID(pasienCollections, user_id)
+    }
     async login(username, password) {
         let result = {}
         try {
@@ -115,6 +132,9 @@ class HistoryServiceInFS {
 }
 
 class RegisteredServiceInFS {
+    async getUserRegistered(doctor_id) {
+        return getCollectionsByDoctorID(registeredCollections, doctor_id)
+    }
     async addUserRegisteredIntoDoctor(doctor_id, user_id) {
         return addCollections(registeredCollections, {
             doctor_id,
