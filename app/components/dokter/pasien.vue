@@ -28,28 +28,52 @@
         </Label>
        
           <Label text="Keluhan Pasien " />
-          <TextField v-model="textFieldValue" hint="Enter text..." />
+          <TextField v-model="issue" hint="Enter text..." />
 
           <Label text="Gejala Pasien " />
-          <TextField v-model="textFieldValue" hint="Enter text..." />
+          <TextField v-model="symptomps" hint="Enter text..." />
 
           <Label text="Obat yang dianjurkan " />
-          <TextField v-model="textFieldValue" hint="Enter text..." />
+          <TextField v-model="medicine" hint="Enter text..." />
 
-          <Label text="Keterangan " />
-          <TextField v-model="textFieldValue" hint="Enter text..." />
+          <Label text="Hasil Diagnosa " />
+          <TextField v-model="results" hint="Enter text..." />
 
-        <Button text="Rekam Data Pasien" @tap="onButtonTap" />
+        <Button text="Rekam Data Pasien" @tap="register" />
       </StackLayout>
   </Page>
 </template>
 
 <script>
+import { mapActions } from "vuex";
 export default {
   props: ["pasien"],
   data() {
-    return {};
+    return {
+      issue : "",
+      symptomps : "",
+      medicine : "",
+      results : ""
+    };
   },
+  methods : {
+    async register(){
+      await this.saveHistory({
+        doctor_id : this.$store.state.doctorLoggedIn.id,
+        checkup_date : new Date(),
+        user_id : this.pasien.id,
+        issue : this.issue, 
+        symptomps : this.symptomps,
+        results : this.results, 
+        medicine : this.medicine
+      }).then(()=>{
+        alert("Data sudah berhasil diinput!")
+      })
+    },
+    ...mapActions({
+      saveHistory : "saveHistory"
+    })
+  }
 };
 </script>
 

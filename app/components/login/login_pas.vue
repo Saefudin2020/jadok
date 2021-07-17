@@ -33,27 +33,14 @@
           <StackLayout class="hr-light" />
         </StackLayout>
 
-        <StackLayout v-show="!isLoggingIn" class="input-field">
-          <TextField
-            ref="confirmPassword"
-            class="input"
-            hint="Confirm password"
-            secure="true"
-            v-model="user.confirmPassword"
-            returnKeyType="done"
-            fontSize="18"
-          />
-          <StackLayout class="hr-light" />
-        </StackLayout>
-
         <Button
-          :text="isLoggingIn ? 'Log In' : 'Sign Up'"
+          text="Log In"
           @tap="submit"
           class="btn btn-primary m-t-20"
         />
       </StackLayout>
 
-      <Label class="login-label sign-up-label" @tap="toggleForm">
+      <Label class="login-label sign-up-label" @tap="register">
         <FormattedString>
           <Span
             :text="isLoggingIn ? 'Don’t have an account? ' : 'Back to Login'"
@@ -67,6 +54,8 @@
 <script>
 import { mapActions } from "vuex";
 import DashboardPasien from "./../pasien/home";
+import RegisterPasien from "./../register/pasien_register.vue";
+
 // A stub for a service that authenticates users.
 const userService = {
   register(user) {
@@ -117,19 +106,7 @@ export default {
         });
     },
     register() {
-      if (this.user.password != this.user.confirmPassword) {
-        this.alert("Your passwords do not match.");
-        return;
-      }
-      userService
-        .register(this.user)
-        .then(() => {
-          this.alert("Your account was successfully created.");
-          this.isLoggingIn = true;
-        })
-        .catch(() => {
-          this.alert("Unfortunately we were unable to create your account.");
-        });
+      return this.$navigateTo(RegisterPasien)
     },
     forgotPassword() {
       prompt({

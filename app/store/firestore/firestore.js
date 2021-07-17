@@ -1,3 +1,4 @@
+import uuid from '../../lib/uuidv4'
 import { firebase, firestore } from '@nativescript/firebase';
 
 firebase.init()
@@ -110,6 +111,14 @@ class PasienServiceInFS {
     async getUser(user_id) {
         return getCollectionsByUserID(pasienCollections, user_id)
     }
+    async register(payload) {
+        const id = uuid()
+        return addCollections(pasienCollections, {
+            user_id: id,
+            id: id,
+            ...payload
+        })
+    }
     async login(username, password) {
         let result = {}
         try {
@@ -117,7 +126,6 @@ class PasienServiceInFS {
         } catch (err) {
             Promise.reject(err)
         }
-        console.log(result)
         return result
     }
 }
@@ -128,6 +136,9 @@ class HistoryServiceInFS {
     }
     async getHistoryByUserID(user_id) {
         return await getCollectionsByUserID(historyCollections, user_id)
+    }
+    async save(payload) {
+        return await addCollections(historyCollections, payload)
     }
 }
 

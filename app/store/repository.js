@@ -26,6 +26,9 @@ class PasienService {
     async login(username, password) {
         return this.pasienRepository.login(username, password)
     }
+    async register(payload) {
+        return this.pasienRepository.register(payload)
+    }
 }
 
 class HistoryService {
@@ -37,6 +40,9 @@ class HistoryService {
     }
     async getHistoryByUserID(user_id) {
         return this.historyRepository.getHistoryByUserID(user_id)
+    }
+    async save(payload) {
+        this.historyRepository.save(payload)
     }
 }
 

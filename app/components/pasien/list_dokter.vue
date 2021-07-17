@@ -49,7 +49,9 @@
             register(){
                 this.registerPatientIntoDoctor({
                     doctor_id : this.dokter.id, 
-                    user_id : this.$store.state.userLoggedIn.id})
+                    user_id : this.$store.state.userLoggedIn.id}).then(()=>{
+                        alert("Berhasil terdaftar")
+                    })
             },
             ...mapActions({
                 getDataDoctorsByCategory : "getDataDoctorsByCategory",

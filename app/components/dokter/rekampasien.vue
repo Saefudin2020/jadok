@@ -9,16 +9,16 @@
 
     <StackLayout>
       <Label text="Keluhan Pasien " class="h3" />
-      <TextField v-model="textFieldValue" hint="Enter text..." />
+      <TextField v-model="issue" hint="Enter text..." />
 
       <Label text="Gejala Pasien " />
-      <TextField v-model="textFieldValue" hint="Enter text..." />
+      <TextField v-model="symptomps" hint="Enter text..." />
 
       <Label text="Obat yang dianjurkan " />
-      <TextField v-model="textFieldValue" hint="Enter text..." />
+      <TextField v-model="medicine" hint="Enter text..." />
 
-      <Label text="Keterangan " />
-      <TextField v-model="textFieldValue" hint="Enter text..." />
+      <Label text="Hasil Diagnosa " />
+      <TextField v-model="results" hint="Enter text..." />
 
       <Button text="Rekam Data Pasien" @tap="onButtonTap" />
     </StackLayout>
@@ -39,6 +39,10 @@ import home from "./home";
 export default {
   data() {
     return {
+      issue : "",
+      symtomps : "",
+      medicine : "",
+      results : "",
       textFieldValue: "",
       home: home,
     };

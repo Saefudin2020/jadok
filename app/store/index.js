@@ -18,19 +18,6 @@ export default new Vuex.Store({
         userLoggedIn: {},
         doctorLoggedIn: {},
         user: {}
-        // dokter: [{
-        //     id: "",
-        //     email: "",
-        //     password: ""
-        // }],
-        // pasien: [{
-        //     id: "",
-        //     email: "",
-        //     password: ""
-        // }],
-        // history: [{
-
-        // }],
     },
     mutations: {
         savePasien(state, payload) {
@@ -137,6 +124,22 @@ export default new Vuex.Store({
             const { doctor_id, user_id } = data
             try {
                 return await RegisteredService.addUserRegisteredIntoDoctor(doctor_id, user_id)
+            }
+            catch (err) {
+                throw err
+            }
+        },
+        async registerPatient({ }, data) {
+            try {
+                return await PasienService.register(data)
+            }
+            catch (err) {
+                throw err
+            }
+        },
+        async saveHistory({ }, data) {
+            try {
+                return await HistoryService.save(data)
             }
             catch (err) {
                 throw err
